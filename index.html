@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AP Statistics Student Quality Simulation</title>
+    <title>AP Statistics Unit 4 Simulation Project</title>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
-    <!-- Updated Chart.js CDN -->
     <script src="https://unpkg.com/chart.js@4.4.3/dist/chart.umd.js"></script>
     <style>
         body {
@@ -85,7 +84,6 @@
             padding: 8px;
             width: 100px;
         }
-        /* New styles for chart containers to fix infinite height bug */
         .chart-container {
             position: relative;
             height: 400px;
@@ -157,7 +155,6 @@ return clamp(q+ 1)</pre>
             <div class="stats-grid" id="stats-container"></div>
             <div>
                 <h3>Population Distribution</h3>
-                <!-- Fixed: Wrapped canvas in a container with fixed height -->
                 <div class="chart-container">
                     <canvas id="histogram-chart"></canvas>
                 </div>
@@ -170,7 +167,6 @@ return clamp(q+ 1)</pre>
             <div id="journey-log" class="simulation-log"></div>
             <div>
                 <h3>Quality Progression</h3>
-                <!-- Fixed: Wrapped canvas in a container with fixed height -->
                 <div class="chart-container">
                     <canvas id="progression-chart"></canvas>
                 </div>
@@ -179,7 +175,7 @@ return clamp(q+ 1)</pre>
     </div>
 
     <script>
-        // Simulation parameters
+        // Simulation parameters from the document
         const PROBS = {
             'G': [0.4333, 0.3333, 0.2333], // [up, same, down]
             'R': [0.3333, 0.4333, 0.2333],
@@ -214,7 +210,7 @@ return clamp(q+ 1)</pre>
             const finals = [];
             for (let i = 0; i < n; i++) {
                 let q = [2, 3, 4, 5, 6][Math.floor(Math.random() * 5)];
-                // Elementary School Assignment
+                // Elementary School Assignment (30% G, 40% R, 30% B)
                 const r_elem = Math.random();
                 let elem_school = r_elem < 0.3 ? 'G' : r_elem < 0.7 ? 'R' : 'B';
 
@@ -297,13 +293,12 @@ return clamp(q+ 1)</pre>
             const ctx = document.getElementById('histogram-chart').getContext('2d');
             if (histogramChart) histogramChart.destroy();
 
-            // Count frequencies for bins 0-9
             const bins = Array(10).fill(0);
             data.forEach(val => bins[val]++);
 
             histogramChart = new Chart(ctx, {
                 type: 'bar',
-                // FIXED: Added 'data:' property correctly
+                // CORRECTED: Added 'data' property
                 data: {
                     labels: bins.map((_, i) => i.toString()),
                     datasets: [{
@@ -315,7 +310,6 @@ return clamp(q+ 1)</pre>
                     }]
                 },
                 options: {
-                    // Fixed: Added maintainAspectRatio: false
                     maintainAspectRatio: false,
                     scales: {
                         y: {
@@ -336,8 +330,8 @@ return clamp(q+ 1)</pre>
 
             progressionChart = new Chart(ctx, {
                 type: 'line',
-                // FIXED: Added 'data:' property correctly
-                 {
+                // CORRECTED: Added 'data' property
+                data: {
                     labels: Array.from({length: scores.length}, (_, i) => i+1),
                     datasets: [{
                         label: 'Quality Score',
@@ -348,7 +342,6 @@ return clamp(q+ 1)</pre>
                     }]
                 },
                 options: {
-                    // Fixed: Added maintainAspectRatio: false
                     maintainAspectRatio: false,
                     plugins: {
                         legend: { display: false }
@@ -367,10 +360,9 @@ return clamp(q+ 1)</pre>
             });
         }
 
-        // Main simulation runner
         function runSimulation() {
             const nInput = document.getElementById('student-count').value;
-            const n = parseInt(nInput) || 4000; // Default to 4000 if invalid
+            const n = parseInt(nInput) || 4000;
 
             if (n <= 0) {
                 alert("Please enter a number greater than 0.");
@@ -379,14 +371,12 @@ return clamp(q+ 1)</pre>
 
             const results = getFinalQualities(n);
 
-            // Calculate stats
             const mean = calculateMean(results).toFixed(2);
             const median = calculateMedian(results).toFixed(2);
             const mode = calculateMode(results);
             const stdDev = calculateStdDev(results).toFixed(2);
             const iqr = calculateIQR(results).toFixed(2);
 
-            // Update UI
             document.getElementById('stats-container').innerHTML = `
                 <div class="stat-card"><strong>Mean:</strong><br>${mean}</div>
                 <div class="stat-card"><strong>Median:</strong><br>${median}</div>
@@ -399,19 +389,16 @@ return clamp(q+ 1)</pre>
             document.getElementById('results-section').classList.remove('hidden');
         }
 
-        // Single student simulation
         function simulateSingleStudent() {
             let log = '';
             let q = [2, 3, 4, 5, 6][Math.floor(Math.random() * 5)];
             log += `Initial Quality: ${q}\n`;
 
-            // Elementary School Assignment
             const r_elem = Math.random();
             let elem_school = r_elem < 0.3 ? 'G' : r_elem < 0.7 ? 'R' : 'B';
             log += `\nAssigned to Elementary School: ${SCHOOL_LABELS[elem_school]}\n`;
 
             const allScores = [q];
-            // K-5 (6 years)
             for (let y = 0; y < 6; y++) {
                 const oldQ = q;
                 q = step(q, elem_school);
@@ -419,7 +406,6 @@ return clamp(q+ 1)</pre>
                 log += `Year ${y+1} (Elem): ${oldQ} -> ${q}\n`;
             }
 
-            // Middle School Assignment & Simulation (3 years)
             let mid_school = assignSchool(q);
             log += `\nEnd of Elementary. Quality: ${q}. Assigned to Middle School: ${SCHOOL_LABELS[mid_school]}\n`;
             for (let y = 0; y < 3; y++) {
@@ -429,7 +415,6 @@ return clamp(q+ 1)</pre>
                 log += `Year ${y+1} (Mid): ${oldQ} -> ${q}\n`;
             }
 
-            // High School Assignment & Simulation (4 years)
             let hs_school = assignSchool(q);
             log += `\nEnd of Middle School. Quality: ${q}. Assigned to High School: ${SCHOOL_LABELS[hs_school]}\n`;
             for (let y = 0; y < 4; y++) {
