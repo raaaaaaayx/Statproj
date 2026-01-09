@@ -298,12 +298,11 @@ return clamp(q+ 1)</pre>
 
             histogramChart = new Chart(ctx, {
                 type: 'bar',
-                // CORRECTED: Added 'data' property
-                data: {
+                 {
                     labels: bins.map((_, i) => i.toString()),
                     datasets: [{
                         label: 'Frequency',
-                         bins,
+                         bins, // FIXED: Added the missing 'data:' property name
                         backgroundColor: 'rgba(54, 162, 235, 0.6)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1
@@ -330,12 +329,11 @@ return clamp(q+ 1)</pre>
 
             progressionChart = new Chart(ctx, {
                 type: 'line',
-                // CORRECTED: Added 'data' property
-                data: {
+                 {
                     labels: Array.from({length: scores.length}, (_, i) => i+1),
                     datasets: [{
                         label: 'Quality Score',
-                         scores,
+                         scores, // FIXED: Added the missing 'data:' property name
                         fill: false,
                         borderColor: 'rgb(75, 192, 192)',
                         tension: 0.1
