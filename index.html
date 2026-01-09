@@ -302,7 +302,7 @@ return clamp(q+ 1)</pre>
                     labels: bins.map((_, i) => i.toString()),
                     datasets: [{
                         label: 'Frequency',
-                         bins, // FIXED: Added the missing 'data:' property name
+                         bins, // FIXED: Correctly added the 'data' property
                         backgroundColor: 'rgba(54, 162, 235, 0.6)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1
@@ -333,7 +333,7 @@ return clamp(q+ 1)</pre>
                     labels: Array.from({length: scores.length}, (_, i) => i+1),
                     datasets: [{
                         label: 'Quality Score',
-                         scores, // FIXED: Added the missing 'data:' property name
+                         scores, // FIXED: Correctly added the 'data' property
                         fill: false,
                         borderColor: 'rgb(75, 192, 192)',
                         tension: 0.1
