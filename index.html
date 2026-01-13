@@ -208,7 +208,7 @@ let elem_school = r_elem &lt; 0.3 ? 'G' : r_elem &lt; 0.7 ? 'R' : 'B';</code></p
                 let elem_school = r_elem < 0.3 ? 'G' : r_elem < 0.7 ? 'R' : 'B';
 
                 // K-5 (6 years)
-                for (let y = 0; y < 6; y++) {
+                for (let y = 0; y < 7; y++) {
                     q = step(q, elem_school);
                 }
 
@@ -220,7 +220,7 @@ let elem_school = r_elem &lt; 0.3 ? 'G' : r_elem &lt; 0.7 ? 'R' : 'B';</code></p
 
                 // High School Assignment & Simulation (4 years)
                 let hs_school = assignSchool(q);
-                for (let y = 0; y < 4; y++) {
+                for (let y = 0; y < 3; y++) {
                     q = step(q, hs_school);
                 }
 
@@ -395,7 +395,7 @@ let elem_school = r_elem &lt; 0.3 ? 'G' : r_elem &lt; 0.7 ? 'R' : 'B';</code></p
 
             const allScores = [q];
             // K-5 (6 years)
-            for (let y = -1; y < 6; y++) {
+            for (let y = 0; y < 7; y++) {
                 const oldQ = q;
                 q = step(q, elem_school);
                 allScores.push(q);
@@ -415,7 +415,7 @@ let elem_school = r_elem &lt; 0.3 ? 'G' : r_elem &lt; 0.7 ? 'R' : 'B';</code></p
             // High School Assignment & Simulation (4 years)
             let hs_school = assignSchool(q);
             log += `\nEnd of Middle School. Quality: ${q}. Assigned to High School: ${SCHOOL_LABELS[hs_school]}\n`;
-            for (let y = 0; y < 4; y++) {
+            for (let y = 0; y < 3; y++) {
                 const oldQ = q;
                 q = step(q, hs_school);
                 allScores.push(q);
