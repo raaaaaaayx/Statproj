@@ -69,7 +69,7 @@
             font-family: monospace;
             white-space: pre-wrap;
         }
-        .definition-box, .procedure-box {
+        .definition-box, .procedure-box, .introduction-box {
             background: #e9f7ef;
             border-left: 4px solid #4CAF50;
             padding: 15px;
@@ -91,12 +91,23 @@
         <h1>AP Statistics Unit 4 Simulation Project</h1>
         <p><em>By Ray Xu, McQueen Hong, Nicole Wang, Lucas Pan</em></p>
 
+        <!-- Introduction Section -->
+        <div class="introduction-box">
+            <h2>Introduction</h2>
+            <p>The simulation evaluates academic quality in a K-12 education system in China. An initial score was randomly assigned to students representing their academic quality, and students were randomly placed into different schools (Good, Regular, or Bad) with different probabilities to improve, keep, or reduce student’s quality each year. The simulation model begins at kindergarten, reassigning students into different middle and high school base on their quality on the previous stage. The goal of this simulation is to analyze how K-12 education system in China works, how different type of schools can influence student’s final academic outcome, and the necessary proportions of different types of middle and high school to accommodate the student’s placements.</p>
+        </div>
+
         <!-- Definition Section -->
         <div class="definition-box">
             <h2>Definition</h2>
-            <p>A students quality can be an integer from 0 to 9. A school’s quality can be determined as “Good”, “Regular” and “Bad”. A good school has a 40% chance of improving a student's quality by 1(if possible), 30% chance of keeping it the same, 20% chance of reducing the quality by 1 and 10% chance of keeping it the same but repeat a year. For a regular school, the percentages are 30%, 40%, 20%, and 10%, respectively. For a bad school, they are 20%, 30%, 30%, and 20%</p>
-            <p>In terms of python, For “Good” it is 40% that a student’s quality+1, 40% keeping the same score, 20% −1 score. In addition to that, since we are not showing how many years they have spent in school, the probability of repeating a year can be equally separated among the other 3 because they need to repeat the step of getting a+-same score.</p>
-            <p>So,</p>
+            <p>A student's quality can be measured on a 0-9 scale, and there are good schools, regular schools, and bad schools. A good school has a 40% chance of improving a student's quality by 1 (if possible), 30% chance of keeping it the same, 20% chance of reducing the quality by 1, and 10% chance of keeping it the same but the student repeats a grade. For a regular school, the percentages are 30%, 40%, 20%, and 10%, respectively. For a bad school, they are 20%, 30%, 30%, and 20%.</p>
+            <p>A student will start at kindergarten with a random quality between 2 and 6 with equal likelihood, with 30% probability of being in a good school, 40% probability of being in a regular school, and 30% probability of being in a bad school. When they get to grade 6, they will be placed in a middle school based on their quality: 7-9 good, 3-6 regular, 0-2 bad. This happens similarly for high school in grade 9. In the end, we can consider: if the proportion of good: regular : bad primary schools is 30%:40%:30%, what are the appropriate proportions of good : regular : bad middle schools and high schools to accommodate the students' placements. Also, what is the distribution of student qualities at the end of each grade level, including 12th grade.</p>
+        </div>
+
+        <!-- Procedure Section -->
+        <div class="procedure-box">
+            <h2>Procedure</h2>
+            <p>In terms of implementation, since the simulation does not track the number of years a student spends in school, the probability of repeating a year is equally distributed among the other three outcomes (improve, keep, reduce). This leads to the following effective probabilities used in the code:</p>
             <p>For a Good School:<br>
             •+1: P(0.4333)<br>
             •+0: P(0.3333)<br>
@@ -109,12 +120,6 @@
             •+1: P(0.2667)<br>
             •+0: P(0.3667)<br>
             • −1: P(0.3667)</p>
-        </div>
-
-        <!-- Procedure Section -->
-         <!-- Procedure Section -->
-        <div class="procedure-box">
-            <h2>Procedure</h2>
             <ol>
                 <li>For each student, they will be assigned a random integer between 2-6 by <code>random.choice([2, 3, 4, 5, 6])</code>. It is definitely random since it is processed by code so there will be no bias.</li>
                 <li>These students are randomly assigned to different elementary schools (for K-5, a total of 6 years). This process is done by:
